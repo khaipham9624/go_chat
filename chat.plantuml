@@ -1,0 +1,27 @@
+When you want to chat with someone, you need to:
+    Create a group if first time -> make a groupAction (create group)
+    add him/her to a group -> make a groupAction (add member)
+    Send message to group
+    If him/her accept to join the group -> make a groupAction (accept to join)
+        him/her pull message from the group
+
+Group Policy
+    Private: User send request, admin accept to join
+    Protected: User send request, Member accept to join
+    Public: User send request, and join freely
+
+
+User
+    Id
+    Name
+User is created and added to database
+Before added to group, need to check if User is in database?
+
+Token <-> UserId
+
+UserInterface:
+Create a group with at least one person -> Make a  request(List of user id) -> return groupId/error
+Add someone to group (groupId, list of users) -> return true/false
+Remove someone from group (groupId, list of users) -> return true/false
+
+Add
