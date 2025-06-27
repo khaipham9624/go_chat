@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
@@ -11,7 +12,74 @@ import (
 
 var client *mongo.Client
 
-const DbName = "chat_app"
+const dbName = "chat_app"
+
+type UserLoginInfo struct {
+	userName       string
+	hashedPassword string
+}
+
+type UserInfo struct {
+	userId   uuid.UUID
+	userName string
+	email    string
+}
+
+type GroupPolicy string
+
+const (
+	PRIVATE GroupPolicy = "private"
+	PUBLIC  GroupPolicy = "public"
+)
+
+type Group struct {
+	groupID   uuid.UUID
+	groupName string
+	userId    []uuid.UUID
+	policy    GroupPolicy
+}
+
+type MessageType string
+
+const (
+	TEXT MessageType = "text"
+	IMG  MessageType = "img"
+)
+
+type Message struct {
+	groupID     uuid.UUID
+	senderID    uuid.UUID
+	messageType MessageType
+	data        string
+}
+
+func CreateUserInfo(userInfo UserInfo) bool {
+	collection := "user_info"
+	data := bson.M{}
+	InsertOne(client, dbName, collection, data)
+	return true
+}
+
+func CreateUserLogin(user UserLoginInfo) bool {
+	collection := "user_login"
+	data := bson.M{}
+	InsertOne(client, dbName, collection, data)
+	return true
+}
+
+func CreateMessage(message Message) bool {
+	collection := "conversation"
+	data := bson.M{}
+	InsertOne(client, dbName, collection, data)
+	return true
+}
+
+func CreateGroup(group Group) bool {
+	collection := "group"
+	data := bson.M{}
+	InsertOne(client, dbName, collection, data)
+	return true
+}
 
 func GetClient() *mongo.Client {
 	if client != nil {
@@ -21,7 +89,7 @@ func GetClient() *mongo.Client {
 	if err != nil {
 		return nil
 	}
-	Ping(client, DbName)
+	Ping(client, dbName)
 	return client
 }
 

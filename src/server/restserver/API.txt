@@ -1,0 +1,7 @@
+login: username, password
+register: username, password, email, phone, address...
+createGroup: groupname, username[], policy
+getGroups: count
+getGroup: groupID
+sendMessage: groupID, message 
+getConversation: 

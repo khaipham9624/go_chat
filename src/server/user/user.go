@@ -4,9 +4,13 @@ import (
 	"gochat/src/server/db"
 
 	"github.com/google/uuid"
-	"go.mongodb.org/mongo-driver/v2/bson"
-	"go.mongodb.org/mongo-driver/v2/mongo"
+	"golang.org/x/crypto/bcrypt"
 )
+
+func hashPassword(password string) (string, error) {
+	hashed, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(hashed), err
+}
 
 type User struct {
 	Id       uuid.UUID
@@ -14,15 +18,7 @@ type User struct {
 	FullName string
 }
 
-var UserCollection string = "user"
-var client *mongo.Client
-
 func (u *User) WriteToDb() {
-	client = db.GetClient()
-	if client == nil {
-		return
-	}
-	db.InsertOne(client, db.DbName, UserCollection, bson.M{"_id": u.Id.String(), "username": u.UserName, "fullname": u.FullName})
+	db.CreateUserLogin(db.UserLoginInfo{})
+	db.CreateUserInfo(db.UserInfo{})
 }
-
-func CreateUser()

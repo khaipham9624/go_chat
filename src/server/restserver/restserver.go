@@ -41,19 +41,25 @@ func createGroup(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Created Group " + groupName + "\n"))
 }
 
-func createUser(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	r.FormValue("username")
-	r.FormValue("fullname")
-}
-
 func login(w http.ResponseWriter, r *http.Request) {
 
 }
 
 func register(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.ParseFiles("templates/register.html"))
-	tmpl.Execute(w, nil)
+	switch r.Method {
+	case http.MethodGet:
+		tmpl := template.Must(template.ParseFiles("templates/register.html"))
+		tmpl.Execute(w, nil)
+	case http.MethodPost:
+		r.ParseForm()
+		username := r.FormValue("username")
+		fullname := r.FormValue("fullname")
+		password := r.FormValue("password")
+		// create user
+	default:
+
+	}
+
 }
 
 func Start(listeningPort uint) {
@@ -61,11 +67,9 @@ func Start(listeningPort uint) {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", index)
-	mux.HandleFunc("/processLogin", login)
+	mux.HandleFunc("/login", login)
 	mux.HandleFunc("/register", register)
-	mux.HandleFunc("/processRegister", register)
 	mux.HandleFunc("/createGroup", createGroup)
-	mux.HandleFunc("/createUser", createUser)
 
 	// Serve static files (CSS, JS, images)
 	// 1. Serve static files from the "static" folder
