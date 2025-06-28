@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gochat/src/server/groupmanager"
 	"gochat/src/server/inmemorygroupmanager"
+	"gochat/src/server/user"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -55,6 +56,14 @@ func register(w http.ResponseWriter, r *http.Request) {
 		username := r.FormValue("username")
 		fullname := r.FormValue("fullname")
 		password := r.FormValue("password")
+
+		userRegister := user.UserRegister{
+			UserName: username,
+			Password: password,
+			FullName: fullname,
+			Email:    "",
+		}
+		userRegister.Register()
 		// create user
 	default:
 

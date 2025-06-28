@@ -14,17 +14,6 @@ var client *mongo.Client
 
 const dbName = "chat_app"
 
-type UserLoginInfo struct {
-	userName       string
-	hashedPassword string
-}
-
-type UserInfo struct {
-	userId   uuid.UUID
-	userName string
-	email    string
-}
-
 type GroupPolicy string
 
 const (
@@ -51,20 +40,6 @@ type Message struct {
 	senderID    uuid.UUID
 	messageType MessageType
 	data        string
-}
-
-func CreateUserInfo(userInfo UserInfo) bool {
-	collection := "user_info"
-	data := bson.M{}
-	InsertOne(client, dbName, collection, data)
-	return true
-}
-
-func CreateUserLogin(user UserLoginInfo) bool {
-	collection := "user_login"
-	data := bson.M{}
-	InsertOne(client, dbName, collection, data)
-	return true
 }
 
 func CreateMessage(message Message) bool {
@@ -132,13 +107,9 @@ func InsertMany(client *mongo.Client, dbName, collection string, data []bson.D) 
 	return insertManyResult, nil
 }
 
-func FindOne(client *mongo.Client, dbName, collection string, filter bson.M) (bson.M, error) {
-	var result bson.M
-	err := client.Database(dbName).Collection(collection).FindOne(context.TODO(), filter).Decode(&result)
-	if err != nil {
-		return nil, err
-	}
-	return result, nil
+func FindOne(client *mongo.Client, dbName, collection string, filter bson.M) *mongo.SingleResult {
+	result := client.Database(dbName).Collection(collection).FindOne(context.TODO(), filter)
+	return result
 }
 
 func FindMany(client *mongo.Client, dbName, collection string, filter bson.M) ([]bson.M, error) {
