@@ -56,16 +56,13 @@ func CreateGroup(group Group) bool {
 	return true
 }
 
-func GetClient() *mongo.Client {
-	if client != nil {
-		return client
-	}
+func Init() bool {
 	client, err := Connect("mongodb://localhost:27017/")
 	if err != nil {
-		return nil
+		return false
 	}
 	Ping(client, dbName)
-	return client
+	return true
 }
 
 func Connect(uri string) (*mongo.Client, error) {

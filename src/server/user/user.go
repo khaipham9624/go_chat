@@ -1,6 +1,7 @@
 package user
 
 import (
+	"fmt"
 	"gochat/src/server/db"
 
 	"github.com/google/uuid"
@@ -25,10 +26,15 @@ func hashPassword(password string) (string, error) {
 }
 
 func (u *UserRegister) Register() {
-	HashedPassword := hashPassword(u.Password)
+	HashedPassword, err := hashPassword(u.Password)
+	if err != nil {
+		fmt.Println("Failed to hash password")
+		return
+	}
+
 	db.CreateUserLogin(db.UserLoginInfo{
 		UserName:       u.UserName,
-		HashedPassword: u.Password,
+		HashedPassword: HashedPassword,
 	})
 
 	db.CreateUserInfo(db.UserInfo{

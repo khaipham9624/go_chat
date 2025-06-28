@@ -1,9 +1,11 @@
 package main
 
 import (
+	"gochat/src/server/db"
 	"gochat/src/server/restserver"
 )
 
 func main() {
+	db.Init()
 	restserver.Start(8080)
 }

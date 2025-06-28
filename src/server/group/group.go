@@ -21,14 +21,5 @@ type Group struct {
 }
 
 func (g *Group) WriteToDb() {
-	client := db.GetClient()
-	if client == nil {
-		return
-	}
-	var bsonUsers []string
-	for _, user := range g.Users {
-		bsonUsers = append(bsonUsers, user.String())
-	}
-
 	db.CreateGroup(db.Group{})
 }

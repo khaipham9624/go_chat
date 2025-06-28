@@ -63,6 +63,7 @@ func register(w http.ResponseWriter, r *http.Request) {
 			FullName: fullname,
 			Email:    "",
 		}
+		fmt.Println(userRegister)
 		userRegister.Register()
 		// create user
 	default:
