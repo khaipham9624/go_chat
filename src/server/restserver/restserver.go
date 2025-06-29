@@ -64,7 +64,11 @@ func register(w http.ResponseWriter, r *http.Request) {
 			Email:    "",
 		}
 		fmt.Println(userRegister)
-		userRegister.Register()
+		if userRegister.Register() {
+			w.Write([]byte("Register successufully!"))
+		} else {
+			w.Write([]byte("Register failed!"))
+		}
 		// create user
 	default:
 

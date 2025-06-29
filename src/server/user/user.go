@@ -25,23 +25,29 @@ func hashPassword(password string) (string, error) {
 	return string(hashed), err
 }
 
-func (u *UserRegister) Register() {
+func (u *UserRegister) Register() bool {
 	HashedPassword, err := hashPassword(u.Password)
 	if err != nil {
 		fmt.Println("Failed to hash password")
-		return
+		return false
 	}
-
-	db.CreateUserLogin(db.UserLoginInfo{
+	userId := uuid.New().String()
+	if (!db.CreateUserLogin(db.UserLoginInfo{
+		UserId:         userId,
 		UserName:       u.UserName,
 		HashedPassword: HashedPassword,
-	})
+	})) {
+		return false
+	}
 
-	db.CreateUserInfo(db.UserInfo{
-		UserId:   uuid.New().String(),
+	if (!db.CreateUserInfo(db.UserInfo{
+		UserId:   userId,
 		UserName: u.UserName,
 		Email:    u.Email,
-	})
+	})) {
+		return false
+	}
+	return true
 }
 
 func Login(u *UserLogin) bool {

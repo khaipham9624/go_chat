@@ -7,5 +7,6 @@ import (
 
 func main() {
 	db.Init()
+	db.CreateUserIndex()
 	restserver.Start(8080)
 }
