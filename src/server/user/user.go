@@ -52,10 +52,6 @@ func (u *UserRegister) Register() bool {
 
 func (u *UserLogin) Login() bool {
 	userLoginFromDb := db.ReadUserLogin(u.UserName)
-	hashedPassword, err := hashPassword(u.Password)
-	if err != nil {
-		return false
-	}
-	err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(userLoginFromDb.HashedPassword))
+	err := bcrypt.CompareHashAndPassword([]byte(userLoginFromDb.HashedPassword), []byte(u.Password))
 	return err == nil
 }

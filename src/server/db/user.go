@@ -53,7 +53,7 @@ func CreateUserInfo(userInfo UserInfo) bool {
 		fmt.Println("failed to unmarshal")
 		return false
 	}
-	fmt.Println(data)
+	fmt.Println("user_info:", data)
 	InsertOne(client, dbName, collection, data)
 	return err == nil
 }
@@ -72,7 +72,7 @@ func CreateUserLogin(user UserLoginInfo) bool {
 		fmt.Println("failed to unmarshal")
 		return false
 	}
-	fmt.Println(data)
+	fmt.Println("user_login:", data)
 	InsertOne(client, dbName, collection, data)
 	return err == nil
 }
@@ -86,6 +86,6 @@ func ReadUserLogin(username string) UserLoginInfo {
 	if err != nil {
 		fmt.Println("error decode")
 	}
-	fmt.Println(userLoginInfo)
+	fmt.Println("read user login:", userLoginInfo)
 	return userLoginInfo
 }

@@ -50,6 +50,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 		UserName: username,
 		Password: password,
 	}
+	fmt.Println(userLogin)
 	if userLogin.Login() {
 		w.Write([]byte("Login successufully!"))
 	} else {
