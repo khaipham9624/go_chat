@@ -43,7 +43,18 @@ func createGroup(w http.ResponseWriter, r *http.Request) {
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
-
+	r.ParseForm()
+	username := r.FormValue("username")
+	password := r.FormValue("password")
+	userLogin := user.UserLogin{
+		UserName: username,
+		Password: password,
+	}
+	if userLogin.Login() {
+		w.Write([]byte("Login successufully!"))
+	} else {
+		w.Write([]byte("Login failed!"))
+	}
 }
 
 func register(w http.ResponseWriter, r *http.Request) {

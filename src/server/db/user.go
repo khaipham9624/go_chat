@@ -24,7 +24,7 @@ type UserInfo struct {
 
 func CreateUserIndex() {
 	indexModel := mongo.IndexModel{
-		Keys:    bson.M{"email": 1, "username": 1},
+		Keys:    bson.M{"username": 1},
 		Options: options.Index().SetUnique(true),
 	}
 
@@ -79,12 +79,13 @@ func CreateUserLogin(user UserLoginInfo) bool {
 
 func ReadUserLogin(username string) UserLoginInfo {
 	collection := "user_login"
-	filter := bson.M{}
+	filter := bson.M{"username": username}
 	result := FindOne(client, dbName, collection, filter)
 	userLoginInfo := UserLoginInfo{}
 	err := result.Decode(&userLoginInfo)
 	if err != nil {
 		fmt.Println("error decode")
 	}
+	fmt.Println(userLoginInfo)
 	return userLoginInfo
 }

@@ -9,8 +9,8 @@ import (
 )
 
 type UserLogin struct {
-	UserName       string
-	HashedPassword string
+	UserName string
+	Password string
 }
 
 type UserRegister struct {
@@ -50,8 +50,12 @@ func (u *UserRegister) Register() bool {
 	return true
 }
 
-func Login(u *UserLogin) bool {
+func (u *UserLogin) Login() bool {
 	userLoginFromDb := db.ReadUserLogin(u.UserName)
-	err := bcrypt.CompareHashAndPassword([]byte(u.HashedPassword), []byte(userLoginFromDb.HashedPassword))
+	hashedPassword, err := hashPassword(u.Password)
+	if err != nil {
+		return false
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(userLoginFromDb.HashedPassword))
 	return err == nil
 }
