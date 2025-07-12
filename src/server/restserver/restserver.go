@@ -8,25 +8,42 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/google/uuid"
 )
 
 var groupManager groupmanager.GroupManager
+var sessions = make(map[string]string)
 
-func index(w http.ResponseWriter, r *http.Request) {
+func authMiddleware(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("session_id")
+		if err != nil || sessions[cookie.Value] == "" {
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
+		next(w, r)
+	}
+}
+
+func indexHandler(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/favicon.ico" {
 		return
 	}
-	fmt.Println(r.URL.Path)
-	// fmt.Println(os.Getwd())
+
+	if cookie, err := r.Cookie("session_id"); err == nil {
+		if sessions[cookie.Value] != "" {
+			http.Redirect(w, r, "/chat", http.StatusSeeOther)
+			return
+		}
+	}
+
 	tmpl := template.Must(template.ParseFiles("templates/index.html"))
 	tmpl.Execute(w, nil)
-
-	// http.ServeFile(w, r, "frontend/html/index.html")
 }
 
-func createGroup(w http.ResponseWriter, r *http.Request) {
+func createGroupHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Create Group")
 	err := r.ParseForm()
 	if err != nil {
@@ -42,7 +59,12 @@ func createGroup(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Created Group " + groupName + "\n"))
 }
 
-func login(w http.ResponseWriter, r *http.Request) {
+func loginHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+		return
+	}
+
 	r.ParseForm()
 	username := r.FormValue("username")
 	password := r.FormValue("password")
@@ -52,13 +74,20 @@ func login(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(userLogin)
 	if userLogin.Login() {
-		w.Write([]byte("Login successufully!"))
+		sessionId := fmt.Sprintf("%d", time.Now().UnixNano())
+		sessions[sessionId] = username
+		http.SetCookie(w, &http.Cookie{
+			Name:  "session_id",
+			Value: sessionId,
+			Path:  "/",
+		})
+		http.Redirect(w, r, "/chat", http.StatusSeeOther)
 	} else {
 		w.Write([]byte("Login failed!"))
 	}
 }
 
-func register(w http.ResponseWriter, r *http.Request) {
+func registerHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		tmpl := template.Must(template.ParseFiles("templates/register.html"))
@@ -88,14 +117,21 @@ func register(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func chatHandler(w http.ResponseWriter, r *http.Request) {
+	cookie, _ := r.Cookie("session_id")
+	username := sessions[cookie.Value]
+	w.Write([]byte("Welcome to chat " + username))
+}
+
 func Start(listeningPort uint) {
 	groupManager = inmemorygroupmanager.NewInMemoryGroupManager()
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", index)
-	mux.HandleFunc("/login", login)
-	mux.HandleFunc("/register", register)
-	mux.HandleFunc("/createGroup", createGroup)
+	mux.HandleFunc("/", indexHandler)
+	mux.HandleFunc("/login", loginHandler)
+	mux.HandleFunc("/register", registerHandler)
+	mux.HandleFunc("/chat", chatHandler)
+	mux.HandleFunc("/createGroup", createGroupHandler)
 
 	// Serve static files (CSS, JS, images)
 	// 1. Serve static files from the "static" folder

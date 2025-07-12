@@ -1,41 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Go Chat</title>
+<!-- templates/login.html -->
+{{ define "title" }}Login | Go Chat{{ end }}
 
-    <link rel="stylesheet" href="/static/styles.css">
-</head>
-<body>
-     <!-- HEADER -->
-    <div id="header-wrapper">
-        <a href="/" class="logo">Go Chat</a>
-        <nav>
-          <a href="#">Home</a>
-          <a href="#">Features</a>
-          <a href="#">About</a>
-          <a href="#">Contact</a>
-        </nav>
-        <a href="/register" class="btn-register">Register</a>
-    </div>
-
-    <div id="main-wrapper">
-        <div id="main-left"></div>
-        <div id="loginFormLayout">
-            <form action="/login" method="post">
-                <input type="text" id="username"  class="inputTextBox" name="username" placeholder="Username"> <br>
-                <hr>
-                <input type="password" id="password" class="inputTextBox" name="password" placeholder="Password"> <br>
-                <br>
-                <center><input type="submit" value="Login" class="btn-login"></center>
-            </form>
-        </div>
-        <div id="main-right"></div>
-    </div>
-
-    <div id="footer-wrapper"></div>
-
-
-</body>
-</html>
+{{ define "content" }}
+<div id="main-left"></div>
+<div id="loginFormLayout">
+    <form action="/login" method="post">
+        <input type="text" id="username" class="inputTextBox" name="username" placeholder="Username"> <br>
+        <hr>
+        <input type="password" id="password" class="inputTextBox" name="password" placeholder="Password"> <br>
+        <br>
+        <center><input type="submit" value="Login" class="btn-login"></center>
+    </form>
+</div>
+<div id="main-right"></div>
+{{ end }}
