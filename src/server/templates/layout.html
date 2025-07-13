@@ -1,3 +1,4 @@
+{{ define "layout" }}
 <!-- templates/layout.html -->
 <!DOCTYPE html>
 <html lang="en">
@@ -10,6 +11,7 @@
 </head>
 
 <body>
+<div class="wrapper">
 
     {{ template "header" . }}
 
@@ -18,7 +20,9 @@
     </div>
 
     {{ template "footer" . }}
+</div>
 
 </body>
 
 </html>
+{{ end }}

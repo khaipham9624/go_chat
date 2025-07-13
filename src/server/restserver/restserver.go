@@ -39,8 +39,12 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	tmpl := template.Must(template.ParseFiles("templates/index.html"))
-	tmpl.Execute(w, nil)
+	tmpl := template.Must(template.ParseFiles(
+		"templates/index.html",
+		"templates/layout.html",
+		"templates/header.html",
+		"templates/footer.html"))
+	tmpl.ExecuteTemplate(w, "layout", nil)
 }
 
 func createGroupHandler(w http.ResponseWriter, r *http.Request) {
@@ -90,8 +94,12 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 func registerHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		tmpl := template.Must(template.ParseFiles("templates/register.html"))
-		tmpl.Execute(w, nil)
+		tmpl := template.Must(template.ParseFiles(
+			"templates/register.html",
+			"templates/layout.html",
+			"templates/header.html",
+			"templates/footer.html"))
+		tmpl.ExecuteTemplate(w, "layout", nil)
 	case http.MethodPost:
 		r.ParseForm()
 		username := r.FormValue("username")
