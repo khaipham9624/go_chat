@@ -138,8 +138,9 @@ func Start(listeningPort uint) {
 	mux.HandleFunc("/", indexHandler)
 	mux.HandleFunc("/login", loginHandler)
 	mux.HandleFunc("/register", registerHandler)
-	mux.HandleFunc("/chat", chatHandler)
-	mux.HandleFunc("/createGroup", createGroupHandler)
+
+	mux.HandleFunc("/chat", authMiddleware(chatHandler))
+	mux.HandleFunc("/createGroup", authMiddleware(createGroupHandler))
 
 	// Serve static files (CSS, JS, images)
 	// 1. Serve static files from the "static" folder
