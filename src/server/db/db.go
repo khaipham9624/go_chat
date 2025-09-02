@@ -57,7 +57,7 @@ func CreateGroup(group Group) bool {
 }
 
 func Init() bool {
-	client, err := Connect("mongodb://localhost:27017/")
+	client, err := Connect("mongodb://mongo:27017/")
 	if err != nil {
 		return false
 	}
