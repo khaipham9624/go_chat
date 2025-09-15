@@ -140,20 +140,13 @@ func registerHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func chatHandler(w http.ResponseWriter, r *http.Request) {
-	// cookie, _ := r.Cookie("session_id")
-	// username := sessions[cookie.Value]
-	// w.Write([]byte("Welcome to chat " + username))
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
 	tmpl := template.Must(template.ParseFiles(
-		"templates/home.html",
-		"templates/header.html",
-		"templates/footer.html"))
+		"templates/home.html"))
 	tmpl.ExecuteTemplate(w, "home", nil)
-
-	// http.ServeFile(w, r, "home.html")
 }
 
 func Start(listeningPort uint) {
@@ -166,7 +159,8 @@ func Start(listeningPort uint) {
 	mux.HandleFunc("/login", loginHandler)
 	mux.HandleFunc("/register", registerHandler)
 
-	mux.HandleFunc("/chat", authMiddleware(chatHandler))
+	// mux.HandleFunc("/chat", authMiddleware(chatHandler))
+	mux.HandleFunc("/chat", chatHandler)
 	mux.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
 		hub.ServeWs(myHub, w, r)
 	})
