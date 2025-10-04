@@ -1,0 +1,99 @@
+html {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    height: 100%;
+    /* height: 100vh; */
+    /*body cao toàn màn hình*/
+    /* min-height: 100vh;  */
+    max-height: 100vh;
+}
+
+.header {
+    background-color: aqua;
+    min-height: 10vh;
+    max-height: 10vh;
+}
+
+.navbar {
+    display: flex;
+    background-color: yellow;
+    justify-content: center;
+    min-height: 5vh;
+    max-height: 5vh;
+}
+
+.navbar button {
+    padding: 15px 32px;
+    margin-right: 10px;
+    margin-left: 10px;
+    border: none;   
+    background-color: yellow;
+}
+
+.body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 1; /*Shorthand của flex-grow flex-shrink flex-basis*/
+    background-color: azure;
+    height: 75vh;
+    min-height: 75vh;
+    max-height: 75vh;
+    /* height: 85vh;
+    min-height: 85vh;
+    max-height: 85vh; */
+}
+
+
+.body .left-side {
+    display: flex;
+    flex-direction: column;
+    background-color: rosybrown;
+    overflow-y: auto;
+    width: 300px;
+    max-height: 100%;
+}
+
+.body .left-side .box {
+    background-color: white; /* nền trắng */
+    border: 1px solid #ccc;  /* viền xám nhạt */
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* đổ bóng nhẹ */
+}
+
+.body .left-side .box.active {
+  background-color: lightblue; /* màu khi được click */
+}
+
+.body .main {
+    display: flex;
+    flex-direction: column;
+    flex: 1; /*Shorthand của flex-grow flex-shrink flex-basis*/
+    /* background-color: blue; */
+    width: 100%;
+}
+
+.body .main .chat_content{
+    display: flex;
+    flex-flow: column;
+    flex: 1; /*Shorthand của flex-grow flex-shrink flex-basis*/
+    overflow-y: auto;
+    background-color: whitesmoke;
+    width: 100%;
+}
+
+
+.body .right-side {
+    background-color: beige;
+    width: 200px;
+}
+
+.footer {
+    background-color: cadetblue;
+    min-height: 10vh;
+    max-height: 10vh;
+}

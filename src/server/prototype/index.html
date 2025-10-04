@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="header">
+        <h1>Header</h1>
+    </div>
+    <div class="navbar">
+        <button id="homeButton">Home</button>
+        <button>About</button>
+        <button>Discover</button>
+    </div>
+    <div class="body">
+        <div class="left-side" id="left-side">
+        </div>
+        <div class="main" id="main">
+            <div class="chat_content" id="chatContent">
+
+            </div>
+            <button id="sendBtn">Gửi</button>
+        </div>
+        <!-- <div class="right-side">
+            <h1>Right-side</h1>
+        </div> -->
+    </div>
+    <div class="footer">
+        <h1>Footer</h1>
+    </div>
+</body>
+
+<script>
+    homeButton = document.getElementById("homeButton")
+    leftSide = document.getElementById("left-side")
+    let currentBoxId = null;
+    const chatContent = document.getElementById("chatContent");
+    const sendBtn = document.getElementById("sendBtn");
+    // Lưu lịch sử chat theo từng box
+    const chatHistory = {};
+
+    let boxNum = 1
+    homeButton.addEventListener("click", () => {
+        box = document.createElement("div")
+        box.className = "box"
+        box.id = "box" + boxNum
+        box.textContent = "Box" + boxNum++
+
+        box.addEventListener("click", (event) => {
+            currentBoxId = event.target.id
+            if (!chatHistory[currentBoxId]) {
+                chatHistory[currentBoxId] = [];
+            }
+            // hiển thị lại lịch sử
+            renderChat();
+        });
+        leftSide.appendChild(box)
+    });
+
+    sendBtn.addEventListener("click", () => {
+        if (!currentBoxId) {
+            alert("Chọn box trước khi chat!");
+            return;
+        }
+
+        const msg = randomString(10)
+        // const msg = chatInput.value.trim();
+        if (msg === "") return;
+
+        chatHistory[currentBoxId].push(msg);
+        // chatInput.value = "";
+        renderChat();
+        // Cuộn xuống cuối
+    });
+
+
+  leftSide.addEventListener("click", (event) => {
+    if (event.target.classList.contains("box")) {
+      // bỏ active ở tất cả box
+      leftSide.querySelectorAll(".box").forEach(b => b.classList.remove("active"));
+    //   leftSide.querySelectorAll(".box").forEach(b => b.remove());
+
+      // thêm active cho box được click
+      event.target.classList.add("active");
+    }
+  });
+
+    // hiển thị lịch sử chat của box đang chọn
+    function renderChat() {
+        chatContent.innerHTML = "";
+        chatHistory[currentBoxId].forEach((msg) => {
+            const p = document.createElement("p");
+            p.textContent = msg;
+            chatContent.appendChild(p);
+        });
+        chatContent.scrollTop = chatContent.scrollHeight;
+    }
+
+    function randomString(length) {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    }
+
+    
+</script>
+
+</html>
