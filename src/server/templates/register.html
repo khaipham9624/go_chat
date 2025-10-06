@@ -2,15 +2,22 @@
 {{ define "title" }}Register | Go Chat{{ end }}
 
 {{ define "content" }}
-<div id="main-left"></div>
-<div id="loginFormLayout">
-    <form action="/register" method="post">
-        <input type="text" id="username" class="inputTextBox" name="username" placeholder="User name"> <br>
-        <input type="password" id="password" class="inputTextBox" name="password" placeholder="Password"> <br>
-        <input type="text" id="fullname" class="inputTextBox" name="fullname" placeholder="Full name"> <br>
-        <br>
-        <center><input type="submit" value="Register" class="btn-basic"></center>
-    </form>
+<div class="left-side" id="left-side">
+    <h1>left-side</h1>
 </div>
-<div id="main-right"></div>
+<div class="main" id="main">
+    <div id="loginFormLayout">
+        <form action="/register" method="post">
+            <input type="text" id="username" class="inputTextBox" name="username" placeholder="User name"> <br>
+            <input type="password" id="password" class="inputTextBox" name="password" placeholder="Password"> <br>
+            <input type="text" id="fullname" class="inputTextBox" name="fullname" placeholder="Full name"> <br>
+            <br>
+            <center><input type="submit" value="Register" class="btn-basic"></center>
+        </form>
+    </div>
+
+</div>
+<div class="right-side">
+    <h1>right-side</h1>
+</div>
 {{ end }}

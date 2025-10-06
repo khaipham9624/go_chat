@@ -11,17 +11,13 @@
 </head>
 
 <body>
-<div class="wrapper">
+{{ template "header" . }}
+    <div class="body">
 
-    {{ template "header" . }}
-
-    <div id="main-wrapper">
         {{ block "content" . }}{{ end }}
-    </div>
 
-    {{ template "footer" . }}
 </div>
-
+{{ template "footer" . }}
 </body>
 
 </html>
