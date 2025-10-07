@@ -11,13 +11,17 @@
 </head>
 
 <body>
-{{ template "header" . }}
-    <div class="body">
-
-        {{ block "content" . }}{{ end }}
-
+<div class="header">
+    {{ template "header" . }}
 </div>
-{{ template "footer" . }}
+
+<div class="body">
+        {{ block "content" . }}{{ end }}
+</div>
+
+<div class="footer">
+    {{ template "footer" . }}
+</div>
 </body>
 
 </html>

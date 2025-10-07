@@ -21,8 +21,8 @@ body {
 
 .header {
     background-color: #00ADD8;
-    min-height: 10vh;
-    max-height: 10vh;
+    min-height: 5vh;
+    max-height: 5vh;
     color: white;
     border-radius: 5px;
 }
@@ -49,9 +49,9 @@ body {
     justify-content: space-between;
     flex: 1; /*Shorthand của flex-grow flex-shrink flex-basis*/
     background-color: azure;
-    height: 75vh;
-    min-height: 75vh;
-    max-height: 75vh;
+    height: 90vh;
+    min-height: 90vh;
+    max-height: 90vh;
     /* height: 85vh;
     min-height: 85vh;
     max-height: 85vh; */
@@ -84,6 +84,8 @@ body {
     flex: 1; /*Shorthand của flex-grow flex-shrink flex-basis*/
     /* background-color: blue; */
     width: 100%;
+    justify-content: center; /* căn ngang */
+    align-items: center;     /* căn dọc */
 }
 
 .body .main .chat_content{
@@ -95,6 +97,38 @@ body {
     width: 100%;
 }
 
+.body .main .loginForm{
+    background-color: whitesmoke;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.btn-login {
+    width: 100%;              /* dài bằng form */
+    padding: 12px;            /* cao hơn */
+    background: #00aeff;      /* màu xanh lá */
+    color: white;             /* chữ trắng */
+    font-size: 16px;          /* chữ to hơn */
+    border: none;             /* bỏ viền */
+    border-radius: 6px;       /* bo góc */
+    cursor: pointer;          /* đổi con trỏ */
+    transition: background 0.3s ease;
+}
+
+.inputTextBox {
+    padding: 10px;
+    margin: 8px 0;
+    border: none;            /* bỏ viền */
+    border-bottom: 2px solid #ccc;  /* nếu muốn chỉ có viền dưới */
+    outline: none;           /* bỏ viền khi focus */
+    font-size: 14px;
+}
+
+.inputTextBox:focus {
+    border-bottom: 2px solid #00aeff; /* viền dưới đổi màu khi focus */
+}
 
 .body .right-side {
     background-color: beige;
@@ -103,6 +137,6 @@ body {
 
 .footer {
     background-color: cadetblue;
-    min-height: 10vh;
-    max-height: 10vh;
+    min-height: 5vh;
+    max-height: 5vh;
 }
